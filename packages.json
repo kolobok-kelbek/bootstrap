@@ -1,0 +1,107 @@
+{
+  "packages": [
+    {
+      "name": "nano",
+      "commands": [
+        "apt-get install nano"
+      ]
+    },
+    {
+      "name": "htop",
+      "commands": [
+        "apt-get install htop"
+      ]
+    },
+    {
+      "name": "terminator",
+      "commands": [
+        "apt-get install terminator"
+      ]
+    },
+    {
+      "name": "nautilus",
+      "commands": [
+        "apt-get install nautilus"
+      ]
+    },
+    {
+      "name": "git",
+      "commands": [
+        "apt-get install git"
+      ]
+    },
+    {
+      "name": "C/C++",
+      "commands": [
+        "apt-get install build-essential",
+        "apt-get install cpp",
+        "apt-get install gpp"
+      ]
+    },
+    {
+      "name": "Qt",
+      "commands": [
+        "apt-get install -y libqt5x11extras5",
+        "apt-get install -y qt5-dev-tools",
+        "apt-get install -y libqt5-dev",
+        "apt-get install -y libqt5-core",
+        "apt-get install -ylibqt5-gui",
+        "apt-get install -y qt5-default",
+        "apt-get install -y qtcreator",
+        "apt-get install -y qtbase5-examples",
+        "apt-get install -y qtdeclarative5-examples"
+      ]
+    },
+    {
+      "name": "Java",
+      "commands": [
+        "add-apt-repository \"deb http://ppa.launchpad.net/linuxuprising/java/ubuntu bionic main\"",
+        "apt-get update",
+        "apt-get install -y oracle-java10-installer"
+      ]
+    },
+    {
+      "name": "docker",
+      "commands": [
+        "apt-get install -y apt-transport-https",
+        "apt-get install -y ca-certificates",
+        "apt-get install -y gnupg",
+        "apt-get install -y docker",
+        "apt-get install -y docker-compose"
+      ]
+    },
+    {
+      "name": "teamviewer",
+      "commands": [
+        "wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb",
+        "dpkg -i teamviewer_amd64.deb",
+        "rm teamviewer_amd64.deb"
+      ]
+    },
+    {
+      "name": "Google Chrome",
+      "commands": [
+        "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -",
+        "sh -c \"echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" >> /etc/apt/sources.list.d/google-chrome.list\"",
+        "apt-get update",
+        "apt-get install -y google-chrome-stable"
+      ]
+    },
+    {
+      "name": "Sublime Text",
+      "commands": [
+        "wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_amd64.deb",
+ 	    "dpkg -i sublime-text_build-3083_amd64.deb"
+      ]
+    },
+    {
+      "name": "Tor Browser",
+      "commands": [
+        "add-apt-repository \"deb https://deb.torproject.org/torproject.org stretch main\"",
+        "gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89",
+        "gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -",
+        "apt install -y tor"
+      ]
+    }
+  ]
+}
