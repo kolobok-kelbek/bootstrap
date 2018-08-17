@@ -88,19 +88,54 @@
       ]
     },
     {
-      "name": "Sublime Text",
-      "commands": [
-        "wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_amd64.deb",
- 	    "dpkg -i sublime-text_build-3083_amd64.deb"
-      ]
-    },
-    {
       "name": "Tor Browser",
       "commands": [
         "add-apt-repository \"deb https://deb.torproject.org/torproject.org stretch main\"",
         "gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89",
         "gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -",
         "apt install -y tor"
+      ]
+    },
+    {
+      "name": "snap",
+      "commands": [
+        "apt-get install snap",
+        "apt-get install snapd"
+      ]
+    },
+    {
+      "name": "Sublime Text",
+      "dependence": "snap",
+      "commands": [
+        "snap install sublime-text --classic"
+      ]
+    },
+    {
+      "name": "PyCharm",
+      "dependence": "snap",
+      "commands": [
+        "snap install pycharm-community --classic"
+      ]
+    },
+    {
+      "name": "Intellij IDEA",
+      "dependence": "snap",
+      "commands": [
+        "snap install intellij-idea-ultimate --classic"
+      ]
+    },
+    {
+      "name": "PHPStorm",
+      "dependence": "snap",
+      "commands": [
+        "snap install phpstorm --classic"
+      ]
+    },
+    {
+      "name": "WebStorm",
+      "dependence": "snap",
+      "commands": [
+        "snap install webstorm --classic"
       ]
     }
   ]
