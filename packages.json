@@ -40,6 +40,7 @@
     },
     {
       "name": "Qt",
+      "dependence": "C/C++",
       "commands": [
         "apt-get install -y libqt5x11extras5",
         "apt-get install -y qt5-dev-tools",
