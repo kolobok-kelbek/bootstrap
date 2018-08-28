@@ -1,47 +1,123 @@
 import os
+import subprocess
 import simplejson as json
-import click
 from dialog import Dialog
 
 class Installing:
 
+    fieldName = "name"
+    fieldOut = "out"
+    fieldMessage = "message"
+    fieldStatus = "status"
+    fieldPkgs = "packages"
+    fieldCommands = "commands"
+
+    messageSuccess = "is installed"
+    messageFeiled = "is failed"
+    messageNoInstalled = "is not installed"
+
+    file = "./packages.json"
+
+    pkgs = []
+    dialog = Dialog(dialog="dialog")
+
+    def initPkgs(self):
+        for pkg in self.pkgs:
+            pkg[self.fieldOut] = ''
+            pkg[self.fieldMessage] = self.messageNoInstalled
+            pkg[self.fieldStatus] = False
+
     def getPackages(self):
-        str = open("./packages.json", "r").read()
+        str = open(self.file, "r").read()
         data = json.loads(str)
-        return data["packages"]
+        self.pkgs = data[self.fieldPkgs]
+        self.initPkgs()
 
     def go(self):
-        pkgs = self.getPackages()
-        selected = self.checkingPackages(pkgs)
-        for indexPkg in pkgs:
-            for indexCommand in indexPkg["commands"]:
-                if indexPkg["name"] in selected:
+        self.getPackages()
+        selected = self.checkingPackages(self.pkgs)
+        for pkg in self.pkgs:
+            for command in pkg[self.fieldCommands]:
+                if pkg[self.fieldName] in selected:
+                    pkgName = pkg[self.fieldName]
+                    tmp = "No information"
                     try:
-                        os.system(indexCommand)
-                        click.echo(click.style("Package " + indexPkg["name"] + " is installed", fg="green"))
+                        tmp = self.exec(command)
+                        self.clear()
+                        self.outDataSetToPkgs(tmp, True, self.messageSuccess, pkgName)
                     except:
-                        click.echo(click.style("Package " + indexPkg["name"] + " is not installed", fg="red"))
+                        self.clear()
+                        self.outDataSetToPkgs(tmp, False, self.messageFeiled, pkgName)
+        self.outData()
         return
 
     def checkingPackages(self, pkgs):
-        d = Dialog(dialog="dialog")
-        d.set_background_title("Installer program")
+        self.dialog.set_background_title("Installer program")
 
         pkgChecklist = []
 
         for pkg in pkgs:
-            pkgChecklist.append((pkg["name"], "", True))
+            pkgChecklist.append((pkg[self.fieldName], "", True))
 
-        code, tags = d.checklist("What installing?",
-                                 choices=pkgChecklist,
-                                 title="Installer program")
-        if code == d.OK:
+        code, tags = self.dialog.checklist("What installing?", choices=pkgChecklist, title="Installer program")
+        if code == self.dialog.OK:
             return tags
         self.clear()
-        quit()
 
     def systemUpdate(self):
         os.system("apt-get update")
 
     def clear(self):
         os.system("clear")
+
+    def exec(self, command):
+        out = subprocess.check_output(command, shell=True)
+        out = str(out)
+        out = out.split('\'')[1]
+        out = out.split('\\n')
+        del out[-1]
+        return out
+
+    def outDataSetToPkgs(self, data, status, message, pkgName):
+        for pkg in self.pkgs:
+            if (pkg[self.fieldName] == pkgName):
+                pkg[self.fieldOut] = data
+                pkg[self.fieldStatus] = status
+                pkg[self.fieldMessage] = message
+                break
+
+    def outData(self):
+        menuData = []
+
+        for pkg in self.pkgs:
+            menuData.append((pkg[self.fieldName], pkg[self.fieldMessage]))
+
+        code, tag = self.dialog.menu("View details", choices=menuData)
+        self.clear()
+        if code == self.dialog.OK:
+            for pkg in self.pkgs:
+                if (pkg[self.fieldName] == tag):
+                    self.dialog.msgbox(
+                        self.outDataToString(pkg[self.fieldOut]) if pkg[self.fieldStatus] else self.messageNoInstalled,
+                        self.getHeightForMessage(pkg[self.fieldOut]),
+                        self.getWidthForMessage(pkg[self.fieldOut])
+                    )
+                    break
+            self.outData()
+
+    def outDataToString(self, outData):
+        str = ""
+        for line in outData:
+            str += line + "\n"
+        return str
+
+    def getHeightForMessage(self, lines):
+        return len(lines) + 10
+
+    def getWidthForMessage(self, lines):
+        width = 0
+        for line in lines:
+            strlen = len(line)
+            if (strlen > width):
+                width = strlen
+        return width + 20
