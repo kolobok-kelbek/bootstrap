@@ -11,6 +11,7 @@ class Installing:
     fieldStatus = "status"
     fieldPkgs = "packages"
     fieldCommands = "commands"
+    fieldDependence = "dependence"
 
     messageSuccess = "is installed"
     messageFeiled = "is failed"
@@ -39,6 +40,8 @@ class Installing:
         for pkg in self.pkgs:
             for command in pkg[self.fieldCommands]:
                 if pkg[self.fieldName] in selected:
+                    if self.fieldDependence in pkg:
+                        self.installDependences(pkg[self.fieldDependence])
                     pkgName = pkg[self.fieldName]
                     tmp = "No information"
                     try:
@@ -97,11 +100,10 @@ class Installing:
         if code == self.dialog.OK:
             for pkg in self.pkgs:
                 if (pkg[self.fieldName] == tag):
-                    self.dialog.msgbox(
-                        self.outDataToString(pkg[self.fieldOut]) if pkg[self.fieldStatus] else self.messageNoInstalled,
-                        self.getHeightForMessage(pkg[self.fieldOut]),
-                        self.getWidthForMessage(pkg[self.fieldOut])
-                    )
+                    if pkg[self.fieldStatus]:
+                        os.system("echo \"" + self.outDataToString(pkg[self.fieldOut]) + "\" | less")
+                    else:
+                        os.system("echo \"" + self.messageNoInstalled + "\" | less")
                     break
             self.outData()
 
@@ -111,13 +113,12 @@ class Installing:
             str += line + "\n"
         return str
 
-    def getHeightForMessage(self, lines):
-        return len(lines) + 10
-
-    def getWidthForMessage(self, lines):
-        width = 0
-        for line in lines:
-            strlen = len(line)
-            if (strlen > width):
-                width = strlen
-        return width + 20
+    def installDependences(self, pkgName):
+        for pkg in self.pkgs:
+            if pkgName == pkg[self.fieldName]:
+                for command in pkg[self.fieldCommands]:
+                    try:
+                        self.exec(command)
+                    except:
+                        break
+            break

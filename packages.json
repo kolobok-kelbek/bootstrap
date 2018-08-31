@@ -106,35 +106,45 @@
     },
     {
       "name": "Sublime Text",
-      "dependence": "snap",
+      "dependence": [
+        "snap"
+      ],
       "commands": [
         "snap install sublime-text --classic"
       ]
     },
     {
       "name": "PyCharm",
-      "dependence": "snap",
+      "dependence": [
+        "snap"
+      ],
       "commands": [
         "snap install pycharm-community --classic"
       ]
     },
     {
       "name": "Intellij IDEA",
-      "dependence": "snap",
+      "dependence": [
+        "snap"
+      ],
       "commands": [
         "snap install intellij-idea-ultimate --classic"
       ]
     },
     {
       "name": "PHPStorm",
-      "dependence": "snap",
+      "dependence": [
+        "snap"
+      ],
       "commands": [
         "snap install phpstorm --classic"
       ]
     },
     {
       "name": "WebStorm",
-      "dependence": "snap",
+      "dependence": [
+        "snap"
+      ],
       "commands": [
         "snap install webstorm --classic"
       ]
