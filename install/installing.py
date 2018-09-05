@@ -5,6 +5,8 @@ from dialog import Dialog
 
 class Installing:
 
+    line = "------------------------------------------------"
+
     fieldName = "name"
     fieldOut = "out"
     fieldMessage = "message"
@@ -74,19 +76,26 @@ class Installing:
         os.system("clear")
 
     def exec(self, command):
+        outFull = []
         out = subprocess.check_output(command, shell=True)
         out = str(out)
         out = out.split('\'')[1]
         out = out.split('\\n')
         del out[-1]
-        return out
+        outFull.append(self.line)
+        outFull.append(command)
+        outFull.append(self.line)
+        for outLine in out:
+            outFull.append(outLine)
+        outFull.append(self.line)
+        return outFull
 
     def outDataSetToPkgs(self, data, status, message, pkgName):
         for pkg in self.pkgs:
             if (pkg[self.fieldName] == pkgName):
                 pkg[self.fieldOut] = data
                 pkg[self.fieldStatus] = status
-                pkg[self.fieldMessage] = message
+                pkg[self.fieldMessage] += message
                 break
 
     def outData(self):

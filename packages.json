@@ -1,6 +1,12 @@
 {
   "packages": [
     {
+      "name": "curl",
+      "commands": [
+        "apt-get install curl"
+      ]
+    },
+    {
       "name": "nano",
       "commands": [
         "apt-get install nano"
@@ -35,7 +41,8 @@
       "commands": [
         "apt-get install build-essential",
         "apt-get install cpp",
-        "apt-get install gpp"
+        "apt-get install gpp",
+        "apt-get install g++"
       ]
     },
     {
@@ -155,13 +162,22 @@
         "echo \"deb https://dl.bintray.com/resin-io/debian stable etcher\" | sudo tee /etc/apt/sources.list.d/etcher.list",
         "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61",
         "sudo apt-get update",
-        "sudo apt-get install etcher-electron"
+        "sudo apt-get install -y etcher-electron"
       ]
     },
     {
       "name": "woeusb",
       "commands": [
-
+        "git clone https://github.com/slacka/WoeUSB.git tmp/woeusb && cd tmp/woeusb && ./setup-development-environment.bash && sudo apt-get install -y devscripts equivs gdebi-core && mk-build-deps && sudo gdebi woeusb-build-deps_*_all.deb && autoreconf --force --install && ./configure && make && sudo make install"
+      ]
+    },
+    {
+      "name": "node",
+      "commands": [
+        "sudo apt-get install -y build-essential libssl-dev",
+        "sudo apt-get install -y nodejs",
+        "sudo apt-get install -y npm",
+        "npm i --global vue-cli"
       ]
     }
   ]
