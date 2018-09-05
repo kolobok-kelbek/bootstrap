@@ -1,48 +1,54 @@
 {
   "packages": [
     {
+      "name": "wget",
+      "commands": [
+        "apt-get install -y wget"
+      ]
+    },
+    {
       "name": "curl",
       "commands": [
-        "apt-get install curl"
+        "apt-get install -y curl"
       ]
     },
     {
       "name": "nano",
       "commands": [
-        "apt-get install nano"
+        "apt-get install -y nano"
       ]
     },
     {
       "name": "htop",
       "commands": [
-        "apt-get install htop"
+        "apt-get install -y htop"
       ]
     },
     {
       "name": "terminator",
       "commands": [
-        "apt-get install terminator"
+        "apt-get install -y terminator"
       ]
     },
     {
       "name": "nautilus",
       "commands": [
-        "apt-get install nautilus"
+        "apt-get install -y nautilus"
       ]
     },
     {
       "name": "git",
       "commands": [
-        "apt-get install git"
+        "apt-get install -y git"
       ]
     },
     {
       "name": "C/C++",
       "commands": [
-        "apt-get install build-essential",
-        "apt-get install cpp",
-        "apt-get install gpp",
-        "apt-get install g++"
+        "apt-get install -y build-essential",
+        "apt-get install -y cpp",
+        "apt-get install -y gpp",
+        "apt-get install -y g++"
       ]
     },
     {
@@ -80,6 +86,9 @@
     },
     {
       "name": "teamviewer",
+      "dependence": [
+        "wget"
+      ],
       "commands": [
         "wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb",
         "dpkg -i teamviewer_amd64.deb",
@@ -88,6 +97,9 @@
     },
     {
       "name": "Google Chrome",
+      "dependence": [
+        "wget"
+      ],
       "commands": [
         "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -",
         "sh -c \"echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" >> /etc/apt/sources.list.d/google-chrome.list\"",
@@ -167,6 +179,9 @@
     },
     {
       "name": "woeusb",
+      "dependence": [
+        "git"
+      ],
       "commands": [
         "git clone https://github.com/slacka/WoeUSB.git tmp/woeusb && cd tmp/woeusb && ./setup-development-environment.bash && sudo apt-get install -y devscripts equivs gdebi-core && mk-build-deps && sudo gdebi woeusb-build-deps_*_all.deb && autoreconf --force --install && ./configure && make && sudo make install"
       ]
