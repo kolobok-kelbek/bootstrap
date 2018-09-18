@@ -1,12 +1,6 @@
 {
   "packages": [
     {
-      "name": "wget",
-      "commands": [
-        "apt-get install -y wget"
-      ]
-    },
-    {
       "name": "curl",
       "commands": [
         "apt-get install -y curl"
