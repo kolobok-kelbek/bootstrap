@@ -42,8 +42,6 @@ class Installing:
         for pkg in self.pkgs:
             for command in pkg[self.fieldCommands]:
                 if pkg[self.fieldName] in selected:
-                    if self.fieldDependence in pkg:
-                        self.installDependences(pkg[self.fieldDependence])
                     pkgName = pkg[self.fieldName]
                     tmp = "No information"
                     try:
@@ -121,13 +119,3 @@ class Installing:
         for line in outData:
             str += line + "\n"
         return str
-
-    def installDependences(self, pkgName):
-        for pkg in self.pkgs:
-            if pkgName == pkg[self.fieldName]:
-                for command in pkg[self.fieldCommands]:
-                    try:
-                        self.exec(command)
-                    except:
-                        break
-            break

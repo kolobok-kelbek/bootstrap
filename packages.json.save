@@ -26,6 +26,9 @@
     {
       "name": "docker",
       "commands": [
+        "apt-get install -y apt-transport-https",
+        "apt-get install -y ca-certificates",
+        "apt-get install -y gnupg",
         "apt-get install -y docker",
         "apt-get install -y docker-compose"
       ]
@@ -52,6 +55,7 @@
       "commands": [
 	"sudo apt-get install -y dirmngr",
 	"sudo apt-get install gnupg2 -y",
+	"apt-get install apt-transport-https",
         "echo \"deb https://deb.torproject.org/torproject.org stretch main\" | sudo tee -a /etc/apt/sources.list.d/tor.list",
  	"echo \"deb-src https://deb.torproject.org/torproject.org stretch main\" | sudo tee -a /etc/apt/sources.list.d/tor.list",
 	"gpg2 --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89",
@@ -75,18 +79,12 @@
     },
     {
       "name": "Intellij IDEA",
-      "dependence": [
-        "snap"
-      ],
       "commands": [
         "snap install intellij-idea-ultimate --classic"
       ]
     },
     {
       "name": "PHPStorm",
-      "dependence": [
-        "snap"
-      ],
       "commands": [
         "snap install phpstorm --classic"
       ]
@@ -115,7 +113,6 @@
     {
       "name": "node",
       "commands": [
-        "sudo apt-get install -y build-essential libssl-dev",
         "sudo apt-get install -y nodejs",
         "sudo apt-get install -y npm",
         "npm i --global vue-cli"
