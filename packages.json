@@ -1,12 +1,6 @@
 {
   "packages": [
     {
-      "name": "curl",
-      "commands": [
-        "apt-get install -y curl"
-      ]
-    },
-    {
       "name": "nano",
       "commands": [
         "apt-get install -y nano"
