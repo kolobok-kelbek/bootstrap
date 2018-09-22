@@ -40,17 +40,20 @@ class Installing:
         self.getPackages()
         selected = self.checkingPackages(self.pkgs)
         for pkg in self.pkgs:
-            for command in pkg[self.fieldCommands]:
-                if pkg[self.fieldName] in selected:
-                    pkgName = pkg[self.fieldName]
-                    tmp = "No information"
-                    try:
-                        tmp = self.exec(command)
-                        self.clear()
-                        self.outDataSetToPkgs(tmp, True, self.messageSuccess, pkgName)
-                    except:
-                        self.clear()
-                        self.outDataSetToPkgs(tmp, False, self.messageFeiled, pkgName)
+            if pkg[self.fieldName] in selected:
+                pkgName = pkg[self.fieldName]
+                commands = "cd tmp"
+                outputData = "No information"
+                for command in pkg[self.fieldCommands]:
+                    commands += " && " + command
+                try:
+                    self.clear()
+                    outputData = self.exec(commands)
+                    self.clear()
+                    self.outDataSetToPkgs(outputData, True, self.messageSuccess, pkgName)
+                except:
+                    self.clear()
+                    self.outDataSetToPkgs(outputData, False, self.messageFeiled, pkgName)
         self.outData()
         return
 
@@ -74,26 +77,16 @@ class Installing:
         os.system("clear")
 
     def exec(self, command):
-        outFull = []
         out = subprocess.check_output(command, shell=True)
         out = str(out)
-        out = out.split('\'')[1]
-        out = out.split('\\n')
-        del out[-1]
-        outFull.append(self.line)
-        outFull.append(command)
-        outFull.append(self.line)
-        for outLine in out:
-            outFull.append(outLine)
-        outFull.append(self.line)
-        return outFull
+        return out.split('\'')[1]
 
     def outDataSetToPkgs(self, data, status, message, pkgName):
         for pkg in self.pkgs:
             if (pkg[self.fieldName] == pkgName):
                 pkg[self.fieldOut] = data
                 pkg[self.fieldStatus] = status
-                pkg[self.fieldMessage] += message
+                pkg[self.fieldMessage] = message
                 break
 
     def outData(self):
@@ -108,14 +101,8 @@ class Installing:
             for pkg in self.pkgs:
                 if (pkg[self.fieldName] == tag):
                     if pkg[self.fieldStatus]:
-                        os.system("echo \"" + self.outDataToString(pkg[self.fieldOut]) + "\" | less")
+                        os.system("echo \"" + pkg[self.fieldOut] + "\" | less")
                     else:
                         os.system("echo \"" + self.messageNoInstalled + "\" | less")
                     break
             self.outData()
-
-    def outDataToString(self, outData):
-        str = ""
-        for line in outData:
-            str += line + "\n"
-        return str

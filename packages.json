@@ -18,85 +18,93 @@
     {
       "name": "Java",
       "commands": [
-        "add-apt-repository \"deb http://ppa.launchpad.net/linuxuprising/java/ubuntu bionic main\"",
+        "sudo add-apt-repository ppa:webupd8team/java",
         "apt-get update",
-        "apt-get install -y oracle-java10-installer"
+        "apt-get install -y oracle-java8-installer"
       ]
     },
     {
       "name": "docker",
       "commands": [
-        "apt-get install -y docker",
-        "apt-get install -y docker-compose"
+        "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -",
+        "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable\"",
+        "sudo apt-get update",
+        "sudo apt-get install -y docker-ce",
+        "sudo pip install docker-compose"
+      ]
+    },
+    {
+      "name": "kubernetes",
+      "commands": [
+        "curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -",
+        "sudo add-apt-repository \"deb http://apt.kubernetes.io/ kubernetes-xenial main\"",
+        "sudo apt-get update",
+        "sudo apt-get install -y kubelet kubeadm kubectl",
+        "sudo apt-mark hold kubelet kubeadm kubectl"
       ]
     },
     {
       "name": "teamviewer",
       "commands": [
         "wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb",
-        "dpkg -i teamviewer_amd64.deb",
-        "rm teamviewer_amd64.deb"
+        "sudo dpkg -i teamviewer_amd64.deb",
+        "sudo rm teamviewer_amd64.deb"
       ]
     },
     {
       "name": "Google Chrome",
       "commands": [
-        "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -",
-        "sh -c \"echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" >> /etc/apt/sources.list.d/google-chrome.list\"",
-        "apt-get update",
-        "apt-get install -y google-chrome-stable"
+        "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -",
+        "sudo touch /etc/apt/sources.list.d/google-chrome.list",
+        "echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list",
+        "sudo apt-get update",
+        "sudo apt-get install -y google-chrome-stable"
       ]
     },
     {
       "name": "Tor Browser",
       "commands": [
-	"sudo apt-get install -y dirmngr",
-	"sudo apt-get install gnupg2 -y",
-        "echo \"deb https://deb.torproject.org/torproject.org stretch main\" | sudo tee -a /etc/apt/sources.list.d/tor.list",
- 	"echo \"deb-src https://deb.torproject.org/torproject.org stretch main\" | sudo tee -a /etc/apt/sources.list.d/tor.list",
-	"gpg2 --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89",
-	"gpg2 --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -",
-	"apt-get update",
-	"apt-get install tor deb.torproject.org-keyring",
-	"cd tmp && wget https://www.torproject.org/dist/torbrowser/8.0/tor-browser-linux64-8.0_en-US.tar.xz && tar -xvJf tor-browser-linux64-8.0_en-US.tar.xz && mv -R tor-browser_en-US /opt/tor-browser"
+        "echo \"deb http://deb.debian.org/debian experimental main contrib\" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list",
+        "sudo apt-get update",
+        "sudo apt-get install torbrowser-launcher"
       ]
     },
     {
       "name": "Sublime Text",
       "commands": [
-        "snap install sublime-text --classic"
+        "sudo snap install sublime-text --classic"
       ]
     },
     {
       "name": "PyCharm",
       "commands": [
-        "snap install pycharm-community --classic"
+        "sudo snap install pycharm-community --classic"
       ]
     },
     {
       "name": "Intellij IDEA",
-      "dependence": [
-        "snap"
-      ],
       "commands": [
-        "snap install intellij-idea-ultimate --classic"
+        "sudo snap install intellij-idea-ultimate --classic"
       ]
     },
     {
       "name": "PHPStorm",
-      "dependence": [
-        "snap"
-      ],
       "commands": [
-        "snap install phpstorm --classic"
+        "sudo snap install phpstorm --classic"
       ]
     },
     {
       "name": "WebStorm",
       "commands": [
-        "snap install webstorm --classic"
+        "sudo snap install webstorm --classic"
       ]
     },
+    {
+      "name": "Telegram",
+      "commands": [
+        "sudo snap install telegram-desktop"
+      ]
+    }
     {
       "name": "etcher",
       "commands": [
@@ -109,16 +117,47 @@
     {
       "name": "woeusb",
       "commands": [
-        "git clone https://github.com/slacka/WoeUSB.git tmp/woeusb && cd tmp/woeusb && ./setup-development-environment.bash && sudo apt-get install -y devscripts equivs gdebi-core && mk-build-deps && sudo gdebi woeusb-build-deps_*_all.deb && autoreconf --force --install && ./configure && make && sudo make install"
+        "git clone https://github.com/slacka/WoeUSB.git tmp/woeusb",
+        "cd tmp/woeusb",
+        "./setup-development-environment.bash",
+        "sudo apt-get install -y devscripts equivs gdebi-core",
+        "mk-build-deps",
+        "sudo gdebi woeusb-build-deps_*_all.deb",
+        "autoreconf --force --install",
+        "./configure",
+        "make",
+        "sudo make install"
       ]
     },
     {
       "name": "node",
       "commands": [
-        "sudo apt-get install -y build-essential libssl-dev",
         "sudo apt-get install -y nodejs",
         "sudo apt-get install -y npm",
         "npm i --global vue-cli"
+      ]
+    },
+    {
+      "name": "php",
+      "commands": [
+        "wget -q https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add -",
+        "echo \"deb https://packages.sury.org/php/ stretch main\" | sudo tee /etc/apt/sources.list.d/php.list",
+        "sudo apt-get update",
+        "sudo apt-get install -y php5.6",
+        "sudo apt-get install -y php5.6-cli php5.6-common php5.6-curl php5.6-mbstring php5.6-mysql php5.6-xml",
+        "sudo apt-get install -y php7.1",
+        "sudo apt-get install -y php7.1-cli php7.1-common php7.1-curl php7.1-mbstring php7.1-mysql php7.1-xml",
+        "sudo apt-get install -y php7.2",
+        "sudo apt-get install -y php7.2-cli php7.2-common php7.2-curl php7.2-mbstring php7.2-mysql php7.2-xml",
+        "sudo apt-get install -y php7.3",
+        "sudo apt-get install -y php7.3-cli php7.3-common php7.3-curl php7.3-mbstring php7.3-mysql php7.3-xml",
+        "sudo update-alternatives --set php /usr/bin/php7.2"
+      ]
+    },
+    {
+      "name": "composer",
+      "commands": [
+        "sudo apt-get install -y composer"
       ]
     }
   ]

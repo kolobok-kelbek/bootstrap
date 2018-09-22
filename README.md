@@ -1,3 +1,3 @@
-# installer
+# installer v3.0
 CLI aplication for fast installing need programms and libraries on debian.
-version 2.1.0
+version 3.0
