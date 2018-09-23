@@ -114,16 +114,11 @@
     {
       "name": "woeusb",
       "commands": [
-        "git clone https://github.com/slacka/WoeUSB.git tmp/woeusb",
-        "cd tmp/woeusb",
+        "git clone https://github.com/slacka/WoeUSB.git woeusb",
+        "cd woeusb",
         "./setup-development-environment.bash",
-        "sudo apt-get install -y devscripts equivs gdebi-core",
         "mk-build-deps",
-        "sudo gdebi woeusb-build-deps_*_all.deb",
-        "autoreconf --force --install",
-        "./configure",
-        "make",
-        "sudo make install"
+        "sudo gdebi woeusb-build-deps_*_all.deb --apt-line"
       ]
     },
     {

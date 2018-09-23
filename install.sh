@@ -35,6 +35,9 @@ apt-get install -y \
     snap \
     snapd \
     dialog \
+    devscripts \
+    equivs \
+    gdebi-core \
     libssl-dev \
     python3 \
     python3-setuptools \
@@ -56,6 +59,9 @@ ssh-keygen
 
 # install descriptions for installer programm
 pip3 install -r requirements.pip
+
+mkdir tmp
+chmod 777 tmp
 
 # run installer
 python3 ./main.py

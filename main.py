@@ -7,7 +7,6 @@ locale.setlocale(locale.LC_ALL, '')
 
 systemObj = system.System()
 systemObj.verified()
-systemObj.createTmpDir()
 
 instObj = inst.Installing()
 instObj.go()

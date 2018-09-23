@@ -27,8 +27,3 @@ class System:
             echo(style("We're not root!", fg="red"))
             subprocess.call(['sudo', 'python3', *sys.argv])
             quit()
-
-    def createTmpDir(self):
-        directory = 'tmp'
-        if not os.path.exists(directory):
-            os.makedirs(directory)
