@@ -2,7 +2,6 @@
   "packages": [
     {
       "name": "Qt",
-      "dependence": "C/C++",
       "commands": [
         "sudo apt-get install -y libqt5x11extras5",
         "sudo apt-get install -y qtbase5-dev-tools",
