@@ -1,7 +1,11 @@
-from typing import List, Any
+from typing import List, Any, Dict
 
 
 class Package:
+    NAME_FIELD = 'name'
+    DESCRIPTION_FIELD = 'description'
+    COMMANDS_FIELD = 'commands'
+
     __name: str = None
     __description: str = None
     __dependence: str = None
@@ -38,3 +42,22 @@ class Package:
     @commands.setter
     def commands(self, commands) -> None:
         self.__commands = commands
+
+    def from_dist(self, data: Dict):
+        self.__name = data[self.NAME_FIELD]
+        self.__commands = data[self.COMMANDS_FIELD]
+
+        if self.DESCRIPTION_FIELD in data:
+            self.__dependence = data[self.DESCRIPTION_FIELD]
+
+        return self
+
+    def to_dist(self) -> Dict:
+        return {
+            self.NAME_FIELD: self.__name,
+            self.DESCRIPTION_FIELD: self.__dependence,
+            self.COMMANDS_FIELD: self.__commands
+        }
+
+    def get_format_commands(self) -> str:
+        return ' && '.join(self.__commands)

@@ -1,23 +1,19 @@
 #!/usr/bin/python3
 import locale
-from src.bootstrap.reader import Reader
-from src.bootstrap.serializator.json import Json
-from src.bootstrap.hydrator.package import Package as PackageHydrator
-from src.bootstrap.entity.package import Package
+from src.bootstrap import *
 
 
 locale.setlocale(locale.LC_ALL, '')
 
-reader = Reader()
-data_str = reader.read("packages.json")
-json = Json()
-data = json.serialize(data_str)
+data_str = read("packages.json")
+data = json_serialize(data_str)
 
-hydrator = PackageHydrator()
-prototype = Package()
 packageList = []
 
-for package in data['packages']:
-    packageList.append(hydrator.hydrate(package, prototype))
+for packageData in data['packages']:
+    package = get_prototype()
+    package.from_dist(packageData)
+    packageList.append(package)
 
-print(packageList)
+for package in packageList:
+    print(package.get_format_commands())
