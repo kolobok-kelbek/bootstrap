@@ -5,7 +5,7 @@ from src.bootstrap import *
 
 locale.setlocale(locale.LC_ALL, '')
 
-data_str = read("packages.json")
+data_str = read_package("packages.json")
 data = json_serialize(data_str)
 
 packageList = []
