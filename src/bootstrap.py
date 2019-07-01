@@ -92,10 +92,9 @@ class Reader:
     def read_packages(template: str) -> List:
         data_list = []
 
-        prototype = get_prototype()
-
         for pkg_file in glob.glob(template):
             for pkg in Reader.read_package(pkg_file):
+                prototype = get_prototype()
                 prototype.hydrate_from_dist(pkg)
                 data_list.append(prototype)
 
@@ -107,10 +106,13 @@ def get_prototype() -> Package:
 
 
 def process(package: Package) -> None:
-    os.mkdir(package.name)
+    pkg_name = package.name.lower().replace(" ", "")
+    dir_log = DIR_LOG + '/' + pkg_name
+    if not os.path.exists(dir_log):
+        os.mkdir(dir_log)
 
-    stdout = open('%s/%s/out.log' % (DIR_LOG, package.name), 'w+')
-    stderr = open('%s/%s/err.log' % (DIR_LOG, package.name), 'w+')
+    stdout = open('%s/%s/out.log' % (DIR_LOG, pkg_name), 'w+')
+    stderr = open('%s/%s/err.log' % (DIR_LOG, pkg_name), 'w+')
 
     p = subprocess.Popen(package.get_format_commands(), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 

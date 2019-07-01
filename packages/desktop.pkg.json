@@ -26,39 +26,39 @@
     ]
   },
   {
+    "name": "Telegram",
+    "commands": [
+      "snap install telegram-desktop"
+    ]
+  },
+  {
     "name": "Sublime Text",
     "commands": [
-      "sudo snap install sublime-text --classic"
+      "snap install sublime-text --classic"
     ]
   },
   {
     "name": "PyCharm",
     "commands": [
-      "sudo snap install pycharm-community --classic"
+      "snap install pycharm-community --classic"
     ]
   },
   {
     "name": "Intellij IDEA",
     "commands": [
-      "sudo snap install intellij-idea-ultimate --classic"
+      "snap install intellij-idea-ultimate --classic"
     ]
   },
   {
     "name": "PHPStorm",
     "commands": [
-      "sudo snap install phpstorm --classic"
+      "snap install phpstorm --classic"
     ]
   },
   {
     "name": "WebStorm",
     "commands": [
-      "sudo snap install webstorm --classic"
-    ]
-  },
-  {
-    "name": "Telegram",
-    "commands": [
-      "sudo snap install telegram-desktop"
+      "snap install webstorm --classic"
     ]
   }
 ]
