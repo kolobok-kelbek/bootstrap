@@ -1,19 +1,17 @@
 #!/usr/bin/python3
 import locale
 from src.bootstrap import *
+from multiprocessing.pool import ThreadPool
 
+TEMPLATE = "packages/*.pkg.json"
 
 locale.setlocale(locale.LC_ALL, '')
 
-data_str = read_package("packages.json")
-data = json_serialize(data_str)
+packageList = Reader.read_packages(TEMPLATE)
 
-packageList = []
+pool = ThreadPool()
+pool.map(process, packageList)
 
-for packageData in data['packages']:
-    package = get_prototype()
-    package.hydrate_from_dist(packageData)
-    packageList.append(package)
+pool.close()
+pool.join()
 
-for package in packageList:
-    print(package.get_format_commands())

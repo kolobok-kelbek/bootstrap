@@ -1,11 +1,11 @@
 from typing import Any, List, Dict
 import json
-import threading
 import subprocess
+import glob
+import os
 
 DIR_LOG = 'log'
 ENC = 'utf-8'
-DIR_PAC = 'packages'
 
 
 class Package:
@@ -72,55 +72,54 @@ class Package:
 
 class Serializer:
 
-    def serialize(self, string: str) -> Any:
+    @staticmethod
+    def serialize(string: str) -> Any:
         return json.loads(string)
 
-    def deserialize(self, data: Any) -> str:
+    @staticmethod
+    def deserialize(data: Any) -> str:
         return json.dumps(data)
 
 
-def read_package(file_name: str) -> str:
-    handle = open(DIR_PAC + '/' + file_name)
+class Reader:
+    @staticmethod
+    def read_package(file_name: str) -> Dict:
+        handle = open(file_name)
 
-    return handle.read()
+        return Serializer.serialize(handle.read())
 
+    @staticmethod
+    def read_packages(template: str) -> List:
+        data_list = []
 
-def read_packages() -> List:
-    list = []
+        prototype = get_prototype()
 
-    
+        for pkg_file in glob.glob(template):
+            for pkg in Reader.read_package(pkg_file):
+                prototype.hydrate_from_dist(pkg)
+                data_list.append(prototype)
 
-    return list
+        return data_list
 
 
 def get_prototype() -> Package:
     return Package()
 
 
-class ProcessorThread(threading.Thread):
-    def __init__(self, package: Package):
-        threading.Thread.__init__(self)
-        self.package = package
+def process(package: Package) -> None:
+    os.mkdir(package.name)
 
-    def run(self) -> None:
-        self.process()
+    stdout = open('%s/%s/out.log' % (DIR_LOG, package.name), 'w+')
+    stderr = open('%s/%s/err.log' % (DIR_LOG, package.name), 'w+')
 
-    def process(self) -> None:
-        stdout = open('%s/%s.out.log' % (DIR_LOG, self.package.name), 'w+')
-        stderr = open('%s/%s.err.log' % (DIR_LOG, self.package.name), 'w+')
+    p = subprocess.Popen(package.get_format_commands(), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-        p = subprocess.Popen(
-            self.package.get_format_commands(),
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
+    out, err = p.communicate()
 
-        out, err = p.communicate()
+    stdout.write(out.decode(ENC))
+    stderr.write(err.decode(ENC))
 
-        stdout.write(out.decode(ENC))
-        stderr.write(err.decode(ENC))
+    stdout.close()
+    stderr.close()
 
-        stdout.close()
-        stderr.close()
 

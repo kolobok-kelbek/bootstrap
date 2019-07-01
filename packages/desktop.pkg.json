@@ -1,0 +1,64 @@
+[
+  {
+    "name": "teamviewer",
+    "commands": [
+      "wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb",
+      "sudo dpkg -i teamviewer_amd64.deb",
+      "sudo rm teamviewer_amd64.deb"
+    ]
+  },
+  {
+    "name": "Google Chrome",
+    "commands": [
+      "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -",
+      "sudo touch /etc/apt/sources.list.d/google-chrome.list",
+      "echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list",
+      "sudo apt-get update",
+      "sudo apt-get install -y google-chrome-stable"
+    ]
+  },
+  {
+    "name": "Tor Browser",
+    "commands": [
+      "echo \"deb http://deb.debian.org/debian experimental main contrib\" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list",
+      "sudo apt-get update",
+      "sudo apt-get install torbrowser-launcher"
+    ]
+  },
+  {
+    "name": "Sublime Text",
+    "commands": [
+      "sudo snap install sublime-text --classic"
+    ]
+  },
+  {
+    "name": "PyCharm",
+    "commands": [
+      "sudo snap install pycharm-community --classic"
+    ]
+  },
+  {
+    "name": "Intellij IDEA",
+    "commands": [
+      "sudo snap install intellij-idea-ultimate --classic"
+    ]
+  },
+  {
+    "name": "PHPStorm",
+    "commands": [
+      "sudo snap install phpstorm --classic"
+    ]
+  },
+  {
+    "name": "WebStorm",
+    "commands": [
+      "sudo snap install webstorm --classic"
+    ]
+  },
+  {
+    "name": "Telegram",
+    "commands": [
+      "sudo snap install telegram-desktop"
+    ]
+  }
+]
