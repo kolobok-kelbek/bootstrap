@@ -12,7 +12,7 @@ packageList = []
 
 for packageData in data['packages']:
     package = get_prototype()
-    package.from_dist(packageData)
+    package.hydrate_from_dist(packageData)
     packageList.append(package)
 
 for package in packageList:
