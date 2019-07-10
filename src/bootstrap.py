@@ -1,4 +1,5 @@
 from typing import Any, List, Dict
+from multiprocessing.pool import ThreadPool
 import json
 import subprocess
 import glob
@@ -6,6 +7,7 @@ import os
 
 DIR_LOG = 'log'
 ENC = 'utf-8'
+TEMPLATE = "packages/*.pkg.json"
 
 
 class Package:
@@ -94,34 +96,39 @@ class Reader:
 
         for pkg_file in glob.glob(template):
             for pkg in Reader.read_package(pkg_file):
-                prototype = get_prototype()
+                prototype = Package()
                 prototype.hydrate_from_dist(pkg)
                 data_list.append(prototype)
 
         return data_list
 
 
-def get_prototype() -> Package:
-    return Package()
+class Processor:
 
+    def process(self, package: Package) -> None:
+        pkg_name = package.name.lower().replace(" ", "")
+        dir_log = DIR_LOG + '/' + pkg_name
+        if not os.path.exists(dir_log):
+            os.mkdir(dir_log)
 
-def process(package: Package) -> None:
-    pkg_name = package.name.lower().replace(" ", "")
-    dir_log = DIR_LOG + '/' + pkg_name
-    if not os.path.exists(dir_log):
-        os.mkdir(dir_log)
+        stdout = open('%s/%s/out.log' % (DIR_LOG, pkg_name), 'w+')
+        stderr = open('%s/%s/err.log' % (DIR_LOG, pkg_name), 'w+')
 
-    stdout = open('%s/%s/out.log' % (DIR_LOG, pkg_name), 'w+')
-    stderr = open('%s/%s/err.log' % (DIR_LOG, pkg_name), 'w+')
+        p = subprocess.Popen(package.get_format_commands(), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    p = subprocess.Popen(package.get_format_commands(), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
 
-    out, err = p.communicate()
+        stdout.write(out.decode(ENC))
+        stderr.write(err.decode(ENC))
 
-    stdout.write(out.decode(ENC))
-    stderr.write(err.decode(ENC))
+        stdout.close()
+        stderr.close()
 
-    stdout.close()
-    stderr.close()
+    def run(self) -> None:
+        packageList = Reader.read_packages(TEMPLATE)
 
+        pool = ThreadPool()
+        pool.map(self.process, packageList)
 
+        pool.close()
+        pool.join()
