@@ -21,6 +21,11 @@ class Terminal:
     def clear() -> None:
         print("\033[H\033[J")
 
+    @staticmethod
+    def normalize():
+        Terminal.clear()
+        Cursor.on()
+
 
 class Text:
     BLUE = '\033[96m'
@@ -31,19 +36,21 @@ class Text:
 
 
 class Menu:
+    TARGET_FPS = 60
+    CONST = 1_000_000_000
+    OPTIMAL_TIME = CONST / TARGET_FPS
+
     @staticmethod
     def start() -> None:
         Cursor.off()
         Terminal.clear()
 
-        TARGET_FPS = 60
-        CONST = 1_000_000_000
-        OPTIMAL_TIME = CONST / TARGET_FPS
-
         while True:
             last_loop_time = time.time()
 
             try:
-                time.sleep((last_loop_time - time.time() + OPTIMAL_TIME) / CONST)
+                time.sleep((last_loop_time - time.time() + Menu.OPTIMAL_TIME) / Menu.CONST)
             except RuntimeError:
                 print("error")
+
+        Terminal.normalize()

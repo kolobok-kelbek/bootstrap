@@ -5,10 +5,6 @@ import subprocess
 import glob
 import os
 
-DIR_LOG = 'log'
-ENC = 'utf-8'
-TEMPLATE = "packages/*.pkg.json"
-
 
 class Package:
     NAME_FIELD = 'name'
@@ -104,31 +100,37 @@ class Reader:
 
 
 class Processor:
+    ENC = 'utf-8'
+    TEMPLATE = "packages/*.pkg.json"
 
     def process(self, package: Package) -> None:
         pkg_name = package.name.lower().replace(" ", "")
-        dir_log = DIR_LOG + '/' + pkg_name
+        dir_log = Logger.DIR_LOG + '/' + pkg_name
         if not os.path.exists(dir_log):
             os.mkdir(dir_log)
 
-        stdout = open('%s/%s/out.log' % (DIR_LOG, pkg_name), 'w+')
-        stderr = open('%s/%s/err.log' % (DIR_LOG, pkg_name), 'w+')
+        stdout = open('%s/%s/out.log' % (Logger.DIR_LOG, pkg_name), 'w+')
+        stderr = open('%s/%s/err.log' % (Logger.DIR_LOG, pkg_name), 'w+')
 
         p = subprocess.Popen(package.get_format_commands(), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         out, err = p.communicate()
 
-        stdout.write(out.decode(ENC))
-        stderr.write(err.decode(ENC))
+        stdout.write(out.decode(self.ENC))
+        stderr.write(err.decode(self.ENC))
 
         stdout.close()
         stderr.close()
 
     def run(self) -> None:
-        packageList = Reader.read_packages(TEMPLATE)
+        package_list = Reader.read_packages(self.TEMPLATE)
 
         pool = ThreadPool()
-        pool.map(self.process, packageList)
+        pool.map(self.process, package_list)
 
         pool.close()
         pool.join()
+
+
+class Logger:
+    DIR_LOG = 'log'
