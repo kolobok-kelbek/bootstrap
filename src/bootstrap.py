@@ -68,6 +68,11 @@ class Package:
         return ' && '.join(self.__commands)
 
 
+class PackageList:
+    __name: str = None
+    __list: List[Package] = List
+
+
 class Serializer:
 
     @staticmethod

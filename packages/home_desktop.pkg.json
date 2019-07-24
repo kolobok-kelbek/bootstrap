@@ -1,0 +1,71 @@
+{
+  "name": "Home desktop",
+  "list": [
+    {
+      "name": "teamviewer",
+      "deb": "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
+    },
+    {
+      "name": "Google Chrome",
+      "commands": [
+        "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -",
+        "sudo touch /etc/apt/sources.list.d/google-chrome.list",
+        "echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list",
+        "sudo apt-get update",
+        "sudo apt-get install -y google-chrome-stable"
+      ]
+    },
+    {
+      "name": "Tor Browser",
+      "apt": "torbrowser-launcher"
+    },
+    {
+      "name": "Telegram",
+      "snap": "telegram-desktop"
+    },
+    {
+      "name": "Sublime Text",
+      "snap": "sublime-text"
+    },
+    {
+      "name": "PyCharm",
+      "snap": "pycharm-community"
+    },
+    {
+      "name": "Intellij IDEA",
+      "snap": "intellij-idea-ultimate"
+    },
+    {
+      "name": "PHPStorm",
+      "snap": "phpstorm"
+    },
+    {
+      "name": "WebStorm",
+      "snap": "webstorm"
+    },
+    {
+      "name": "CLion",
+      "snap": "clion"
+    },
+    {
+      "name": "GoLand",
+      "snap": "goland"
+    },
+    {
+      "name": "DataGrid",
+      "snap": "datagrid"
+    },
+    {
+      "name": "VSCode",
+      "snap": "code"
+    },
+    {
+      "name": "Skype",
+      "snap": "skype"
+    },
+    {
+      "name": "Terminator",
+      "apt": "terminator"
+    }
+  ]
+}
